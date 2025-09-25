@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dice</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .mainPage {
+      display: block;
+      height: 100vh;
+      width: 100%;
+    }
+
+    .front-page {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      height: 100%;
+    }
+
+    .dice-image {
+      width: 50%;
+      /* height: 80%; */
+    }
+
+    .dice-image img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .dice-content {
+      font-size: 30px;
+    }
+
+    .dice-content button {
+      background-color: black;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .parentNextPage {
+      display: none;
+      padding: 2rem;
+    }
+
+    .next-mainPage {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+
+    .score-content h1 {
+      font-size: 4rem;
+    }
+
+    .score-content p {
+      font-size: 2rem;
+    }
+
+    .number-content {
+      font-size: 26px;
+      font-weight: bold;
+      width: 50%;
+    }
+
+    .flex-number {
+      display: flex;
+      
+    }
+
+    .number {
+      font-size: 60px;
+      border: 1px solid black;
+      border-radius: 8px;
+      padding: 10px 18px;
+      margin: 10px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s;
+    }
+
+    .number:hover {
+      background-color: black;
+      color: white;
+    }
+
+    .active {
+      background-color: black;
+      color: white;
+    }
+
+    .error-msg {
+      color: white;
+      width: fit-content;
+      padding: 5px;
+      margin-bottom: 10px;
+      background-color: red;
+      display: none;
+    }
+
+    .diceScroll-image {
+      width: 20%;
+      height: 240px;
+      display: flex;
+      margin: auto;
+    }
+
+    .diceScroll-image img {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .diceText {
+      margin: auto;
+      width: 20%;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    .dicebtn {
+      margin: auto;
+      width: 20%;
+      text-align: center;
+    }
+
+    .resetbtn {
+      margin: 10px;
+      font-size: 20px;
+      background-color: white;
+      color: black;
+      border: 1px solid black;
+      padding: 10px 5rem;
+      border-radius: 6px;
+    }
+
+    .resetbtn:hover {
+      background-color: black;
+      color: white;
+      transition: 0.5s ease;
+    }
+
+    .rulesbtn {
+      padding: 14px 5rem;
+      background-color: black;
+      color: white;
+      border: 1px solid black;
+      border-radius: 6px;
+    }
+
+    .rulesbtn:hover {
+      transition: 0.5s ease;
+      background-color: white;
+      color: black;
+    }
+
+    @media (max-width: 475px) {
+        .dice-image {
+            width: 100%;
+        }
+        .front-page{
+            flex-direction: column;
+        }
+        .dice-content{
+         text-align: center;
+        }
+        .next-mainPage{
+            flex-direction: column;
+        }
+         .score-content{
+            text-align: center;
+         }
+       
+        .flex-number{
+            flex-direction: column;
+        }
+        .diceScroll-image {
+            width: 80%;
+        }
+        .diceText {
+            width: unset;
+        }
+        .dicebtn {
+            width: unset;
+        }
+         .flex-number {
+            text-align: center;
+         }
+             .score-content{
+                text-align: center;
+                margin: auto;
+             }
+             .number-content{
+                margin: auto;
+             }
+}
+
+    
+  </style>
+</head>
+
+<body>
+
+
+  <div class="mainPage">
+    <div class="front-page">
+      <div class="dice-image">
+        <img src="dice-images/dices.png" alt="dice">
+      </div>
+      <div class="dice-content">
+        <h1>Dice Game</h1>
+        <button id="playbtn">Play Game</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="parentNextPage">
+    <div class="next-mainPage">
+      <div class="score-content">
+        <h1>0 Score</h1>
+        <p>Total Score</p>
+      </div>
+      <div class="number-content">
+        <div class="error-msg">You Have Not Selected A Number!</div>
+        <div class="flex-number">
+          <div class="number">1</div>
+          <div class="number">2</div>
+          <div class="number">3</div>
+          <div class="number">4</div>
+          <div class="number">5</div>
+          <div class="number">6</div>
+        </div>
+        <p>Select Number</p>
+      </div>
+    </div>
+
+    <div class="diceScroll-image">
+      <img src="dice-images/dice_1.png" alt="dice-roll">
+    </div>
+    <p class="diceText">Click On Dice To Roll</p>
+    <div class="dicebtn">
+      <button class="resetbtn">Reset</button><br>
+      <button class="rulesbtn">Show Rules</button>
+    </div>
+  </div>
+
+  <script>
+    const playbtn = document.getElementById("playbtn");
+    const mainPage = document.querySelector(".mainPage");
+    const parentNextPage = document.querySelector(".parentNextPage");
+    const scoreContent = document.querySelector(".score-content h1");
+    const flexNumber = document.querySelectorAll(".number");
+    const diceScrollImage = document.querySelector(".diceScroll-image img");
+    const errorBox = document.querySelector(".error-msg");
+    const resetbtn = document.querySelector(".resetbtn");
+    let score = 0;
+
+    const images = [
+      "dice-images/dice_1.png",
+      "dice-images/dice_2.png",
+      "dice-images/dice_3.png",
+      "dice-images/dice_4.png",
+      "dice-images/dice_5.png",
+      "dice-images/dice_6.png"
+    ];
+
+   //it shows the second game page after one click on play game btn
+    playbtn.addEventListener("click", () => {
+      mainPage.style.display = "none";
+      parentNextPage.style.display = "block";
+    });
+
+    // the one integer from 1,2,3,4,5,6 is selected 
+    let selectedNumber = undefined;
+    flexNumber.forEach((element) => {
+      element.addEventListener("click", function () {  
+        flexNumber.forEach(el => el.classList.remove("active"));
+
+        element.classList.add("active");
+        selectedNumber = Number(element.innerText);
+        errorBox.style.display = "none";
+       
+      })
+    });
+
+    //when we don't click on number or not selected the numbers then the errorbox is show
+    diceScrollImage.addEventListener("click", () => {
+      if (selectedNumber === undefined) {
+        errorBox.style.display = "block";
+        return;
+      }
+
+      let randomNumber = Math.floor(Math.random() * 6) + 1;
+      diceScrollImage.src = images[randomNumber - 1];
+
+
+      if (randomNumber === selectedNumber) {
+        score += 10;
+      } else {
+        score -= 5;
+      }
+      scoreContent.innerText = `${score} Score`;
+
+      
+      selectedNumber = undefined;
+      flexNumber.forEach(el => el.classList.remove("active"));
+    });
+
+    
+    resetbtn.addEventListener("click", () => {
+      score = 0;
+      scoreContent.innerText = "0 Score";
+      errorBox.style.display = "none";
+      diceScrollImage.src = images[0]; 
+    });
+  </script>
+
+</body>
+</html>
